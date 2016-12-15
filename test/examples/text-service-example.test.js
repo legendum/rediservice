@@ -22,15 +22,15 @@ describe( 'rediservice text service example', function () {
 
   it( 'should cache some data (for use by services)', function (done) {
 
-    rediservice.cache('some-random-id', ['hello', 'world']);
+    rediservice.setCache('some-random-id', ['hello', 'world']);
 
     // callback style
-    rediservice.cache('some-random-id', (err, words) => {
+    rediservice.getCache('some-random-id', (err, words) => {
       assert.notOk(err);
       assert.deepEqual(['hello', 'world'], words);
 
       // promise style
-      rediservice.cache('some-random-id').then( (words) => {
+      rediservice.getCache('some-random-id').then( (words) => {
         assert.deepEqual(['hello', 'world'], words);
 
         done();

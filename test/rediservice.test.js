@@ -9,16 +9,16 @@ describe( 'rediservice', function () {
 
   it( 'should cache some data', function (done) {
 
-    rediservice.cache('author', { name: 'Kevin', age: 45 }, 2); // secs
+    rediservice.setCache('author', { name: 'Kevin', age: 45 }, 2); // secs
 
-    rediservice.cache('author').then( (data) => {
+    rediservice.getCache('author').then( (data) => {
 
       assert.equal( 'Kevin', data.name );
       assert.equal( 45, data.age );
 
     }).then( () => {
 
-      rediservice.cache('author', (err, data) => {
+      rediservice.getCache('author', (err, data) => {
 
         assert.isNull( err );
         assert.equal( 'Kevin', data.name );
@@ -33,7 +33,7 @@ describe( 'rediservice', function () {
 
   it( 'should handle uncached data', function (done) {
 
-    rediservice.cache('missing').then( (data) => {
+    rediservice.getCache('missing').then( (data) => {
       assert.isNull( data );
       done();
     });
