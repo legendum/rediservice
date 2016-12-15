@@ -10,9 +10,13 @@ describe( 'Redis channels', function () {
 
   let count = 0;
 
+  after( () => {
+    channels.unsubAll();
+  });
+
   it( 'should subscribe to 2 channels and receive 3 messages', function (done) {
 
-    this.timeout(10000);
+    this.timeout(20000);
 
     let counter = () => {
       count++;
@@ -23,6 +27,7 @@ describe( 'Redis channels', function () {
       if ( typeof message === 'string' ) {
         assert.equal('hello world', message);
       } else {
+        assert.equal('object', typeof message);
         assert.equal('world', message.hello);
       }
       counter();
@@ -33,9 +38,9 @@ describe( 'Redis channels', function () {
       counter();
     });
 
-    channels.pub('channel1', 'hello world');
-    channels.pub('channel2', 'hola mundo');
-    channels.pub('channel1', {hello: 'world'});
+    setTimeout( () => channels.pub('channel1', 'hello world'), 300 );
+    setTimeout( () => channels.pub('channel2', 'hola mundo'), 600 );
+    setTimeout( () => channels.pub('channel1', {hello: 'world'}), 900 );
 
   } );
 
