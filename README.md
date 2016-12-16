@@ -150,7 +150,7 @@ rediservice.setCache( 'some-key-id', { arbitrary: [ 'data', { here: 123 } ] } );
 rediservice.getCache( 'some-key-id' ).then( (data) => {
 
   // ...then check it's what we expect it to be
-  assert.deepEqual( [ 'data', { here: 123 } ], data.arbirary ); 
+  assert.deepEqual( [ 'data', { here: 123 } ], data.arbitrary ); 
 
 });
 ```
