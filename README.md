@@ -59,10 +59,9 @@ In the examples above, the choice of `result` as the key was arbitrary. You can 
 Note that the `rediservice.exports()` call at the end of the file exports the following:
 
 1. `run()` to run the microservices (in this case 'text.join' and 'text.caps')
-2. `services()` to get an Object whose keys are service names and values are service functions
-3. Each of the services - in this case 'text.join' and 'text.caps' (but you shouldn't need to call these directly)
+2. `services()` to get an Object whose keys are service names and values are functions to start the services
 
-Typically, you'll only need to call the `run` method to run the microservices.
+Typically, you'll just call the `run` method to run the microservices.
 
 
 ### 3. Running the example microservices
