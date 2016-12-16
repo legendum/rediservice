@@ -6,12 +6,13 @@ Simple microservices with Redis pub/sub and caching
 
 ### 1. Install and run Redis
 
+Please see https://redis.io to download, install and run Redis on your machine.
 
 ### 2. Create two "text" microservices with Rediservice
 
 Here, we'll create a microservice called "text.join" to join a list of words together and set a `result` value, and also a microservice called "text.caps" to capitalize a list of words, and return the new list together with a word count.
 
-```
+```javascript
 'use strict';
 
 const rediservice = require( '../lib/rediservice' )
@@ -55,7 +56,7 @@ module.exports = rediservice.exports();
 
 ### 3. Test the two microservices
 
-```
+```javascript
 'use strict';
 
 const assert = require( 'chai' ).assert;
@@ -103,7 +104,7 @@ describe( 'rediservice text example services', function () {
 Sometimes, microservices need to operate on data that is best stored in a cache.
  To enable this, `rediservice` provides `setCache` and `getCache` methods:
 
-```
+```javascript
 'use strict';
 
 const assert = require( 'chai' ).assert;
