@@ -19,12 +19,9 @@ rediservice.service('text.caps', (service, opts) => {
 
   rediservice.on(service, {words: true, result: false}, (data) => {
 
-    let result = [];
-    for (var i = 0; i < data.words.length; i++) {
-      result.push( data.words[i].toUpperCase() );
-    }
+    let result = data.words.map( (word) => word.toUpperCase() );
 
-    rediservice.send(service, data, { result: result });
+    rediservice.send(service, data, { result: result, count: result.length });
   });
 });
 

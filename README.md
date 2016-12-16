@@ -6,7 +6,7 @@ Simple microservices with Redis pub/sub and caching
 
 ### 1. Install and run Redis
 
-Please see https://redis.io to download, install and run Redis on your machine.
+Visit https://redis.io to download, install and run Redis on your machine.
 
 ### 2. Create two "text" microservices with Rediservice
 
@@ -15,7 +15,7 @@ Here, we'll create a microservice called "text.join" to join a list of words tog
 ```javascript
 'use strict';
 
-const rediservice = require( '../lib/rediservice' )
+const rediservice = require( 'rediservice' )
                     .create( 'redis://localhost:6379' );
 
 // 'text.join' - Join a list of words
@@ -39,13 +39,10 @@ rediservice.service('text.caps', (service, opts) => {
   rediservice.on(service, {words: true, result: false}, (data) => {
 
     // ...capitalize each word in the list
-    let result = [];
-    for (var i = 0; i < data.words.length; i++) {
-      result.push( data.words[i].toUpperCase() );
-    }
+    let result = data.words.map( (word) => word.toUpperCase() );
 
     // ...then send the original data, merged with the result list
-    rediservice.send(service, data, { result: result, count: result.count });
+    rediservice.send(service, data, { result: result, count: result.length });
   });
 });
 
@@ -61,7 +58,8 @@ module.exports = rediservice.exports();
 
 const assert = require( 'chai' ).assert;
 
-const rediservice = require( '../../lib/rediservice' ).create();
+// remember to "npm install rediservice" first!
+const rediservice = require( 'rediservice' ).create();
 
 const textExample = require( './text-example-services' ); // (the code above)
 
@@ -71,6 +69,7 @@ describe( 'rediservice text example services', function () {
 
     let serviceName = 'text.join';
 
+    // we use the optional "debug" flag to write verbose logging
     textExample.run(serviceName, { debug: true });
 
     rediservice.on(serviceName, { result: true }, (data) => {
@@ -85,6 +84,7 @@ describe( 'rediservice text example services', function () {
 
     let serviceName = 'text.caps';
 
+    // we use the optional "debug" flag to write verbose logging
     textExample.run(serviceName, { debug: true });
 
     rediservice.on(serviceName, { result: true, count: true }, (data) => {
@@ -109,7 +109,7 @@ Sometimes, microservices need to operate on data that is best stored in a cache.
 
 const assert = require( 'chai' ).assert;
 
-const rediservice = require( '../lib/rediservice' )
+const rediservice = require( 'rediservice' )
                     .create( 'redis://localhost:6379' );
 
 // set an arbirary cache key/value pair...

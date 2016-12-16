@@ -40,31 +40,32 @@ describe( 'rediservice text service example', function () {
 
   it( 'should join a list of words', function (done) {
 
-    let service = 'text.join';
+    let serviceName = 'text.join';
 
-    textExample.run(service, { debug: true });
+    textExample.run(serviceName, { debug: true });
 
-    rediservice.on(service, { result: true }, (data) => {
+    rediservice.on(serviceName, { result: true }, (data) => {
       assert.equal('hello world', data.result);
       done();
     });
 
-    rediservice.send(service, { words: ['hello', 'world'], sep: ' ' });
+    rediservice.send(serviceName, { words: ['hello', 'world'], sep: ' ' });
   });
 
 
   it( 'should capitalize a list of words', function (done) {
 
-    let service = 'text.caps';
+    let serviceName = 'text.caps';
 
-    textExample.run(service, { debug: true });
+    textExample.run(serviceName, { debug: true });
 
-    rediservice.on(service, { result: true }, (data) => {
+    rediservice.on(serviceName, { result: true, count: true }, (data) => {
       assert.deepEqual(['HELLO', 'WORLD'], data.result);
+      assert.equal(2, data.count);
       done();
     });
 
-    rediservice.send(service, { words: ['hello', 'world'] });
+    rediservice.send(serviceName, { words: ['hello', 'world'] });
   });
 
 });
