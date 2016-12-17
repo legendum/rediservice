@@ -29,7 +29,7 @@
     "jshint": "jshint lib test --config",
     "mocha": "mocha test --recursive"
   },
-  "engine": "node >= 0.10.25",
+  "engine": "node >= 4.0.0",
   "license": "MIT",
-  "version": "2.1.2"
+  "version": "2.1.3"
 }
