@@ -13,11 +13,6 @@ rediservice.service( 'text.join', function(serviceName, opts) {
     // send the original data, merged with the result
     this.send(serviceName, data, { result: result });
 
-    // store the number of microservice calls in the cache (to demo the cache)
-    this.getCache( 'join-call-counter' ).then( (count) => {
-      this.setCache( 'join-call-counter', (count || 0) + 1, 2 ); // just 2 secs
-    });
-
   });
 
 });
@@ -32,11 +27,6 @@ rediservice.service('text.caps', function(serviceName, opts) {
 
     // send the original data, merged with the result and the word count
     this.send(serviceName, data, { result: result, count: result.length });
-
-    // store the number of microservice calls in the cache (to demo the cache)
-    this.getCache( 'caps-call-counter' ).then( (count) => {
-      this.setCache( 'caps-call-counter', (count || 0) + 1, 2 ); // just 2 secs
-    });
 
   });
 
