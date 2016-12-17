@@ -48,7 +48,9 @@ describe( 'rediservice text service example', function () {
       done();
     });
 
-    rediservice.send(serviceName, { words: ['hello', 'world'], sep: ' ' });
+    setTimeout( () => {
+      rediservice.send(serviceName, { words: ['hello', 'world'], sep: ' ' });
+    }, 500);
   });
 
 
@@ -64,7 +66,9 @@ describe( 'rediservice text service example', function () {
       done();
     });
 
-    rediservice.send(serviceName, { words: ['hello', 'world'] });
+    setTimeout( () => {
+      rediservice.send(serviceName, { words: ['hello', 'world'] });
+    }, 500);
   });
 
 });
