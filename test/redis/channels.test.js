@@ -3,8 +3,7 @@
 const assert = require( 'chai' ).assert;
 
 const redis = require('../../lib/redis');
-const client = redis.client.create();
-const channels = redis.channels.create( client );
+const channels = redis.channels.create();
 
 describe( 'Redis channels', function () {
 

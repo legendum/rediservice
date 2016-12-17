@@ -70,7 +70,7 @@ Note that the `rediservice.exports()` call at the end of the file exports the fo
 * `service(serviceName, fnDSL)` to define a new microservice using this DSL
 * `services(selector)` to get an Object whose keys are service names and values are functions to start the services
 * `on(serviceName, match, fn)` to handle messages that match data "signatures"
-* `send(serviceName, data, newData)` to publish results after processing
+* `send(serviceName, data, newData)` to publish processed data to a microservice
 * `setCache(key, data, ttl)` to set a value in the Redis cache
 * `getCache(key)` to get a value from the Redis cache (as a Promise), or...
 * `getCache(key, next)` to get a value from the Redis cache (as a callback)
