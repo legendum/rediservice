@@ -53,6 +53,7 @@ rediservice.service( 'text.caps', function(serviceName, opts) {
       // ...then send the original data, merged with the result list
       this.send( serviceName, data, { result: result, count: result.length } );
     }
+
   });
 });
 
