@@ -17,8 +17,7 @@ Here, we'll create a microservice called "text.join" to join a list of words tog
 ```javascript
 'use strict';
 
-const rediservice = require( 'rediservice' )
-                    .create( 'redis://localhost:6379' );
+const rediservice = require( 'rediservice' ).create( 'redis://localhost:6379' );
 
 // 'text.join' - Join a list of words
 rediservice.service( 'text.join', function(serviceName, opts) {
@@ -58,10 +57,18 @@ In the examples above, the choice of `result` as the key was arbitrary. You can 
 
 Note that the `rediservice.exports()` call at the end of the file exports the following:
 
-1. `run()` to run the microservices (in this case 'text.join' and 'text.caps')
-2. `services()` to get an Object whose keys are service names and values are functions to start the services
+* `run()` to run the microservices (in this case 'text.join' and 'text.caps')
+* `services()` to get an Object whose keys are service names and values are functions to start the services
+* `on(serviceName, match, fn)` to handle messages that match data "signatures"
+* `send(serviceName, data, newData)` to publish results after processing
+* `setCache(key, data, ttl)` to set a value in the Redis cache
+* `getCache(key)` to get a value from the Redis cache (as a Promise), or...
+* `getCache(key, next)` to get a value from the Redis cache (as a callback)
+* `service(serviceName, fnDSL)` to define a new microservice using this DSL
+* `exports()` to return this list of DSL methods for export from a microservice
 
-Typically, you'll just call the `run` method to run the microservices.
+
+Relax! Typically, you'll just call the `run()` method to run the microservices.
 
 
 ### 3. Running the example microservices
@@ -102,12 +109,12 @@ describe( 'text example services', function () {
     // we use the optional "debug" flag to write verbose logging
     textExample.run( serviceName, { debug: true } );
 
-    rediservice.on( serviceName, { result: true }, (data) => {
+    textExample.on( serviceName, { result: true }, (data) => {
       assert.equal( 'hello world', data.result );
       done();
     });
 
-    rediservice.send( serviceName, { words: ['hello', 'world'], sep: ' ' } );
+    textExample.send( serviceName, { words: ['hello', 'world'], sep: ' ' } );
   });
 
   it( 'should capitalize a list of words', function (done) {
@@ -117,13 +124,13 @@ describe( 'text example services', function () {
     // we use the optional "debug" flag to write verbose logging
     textExample.run( serviceName, { debug: true } );
 
-    rediservice.on( serviceName, { result: true, count: true }, (data) => {
+    textExample.on( serviceName, { result: true, count: true }, (data) => {
       assert.deepEqual( ['HELLO', 'WORLD'], data.result );
       assert.equal( 2, data.count );
       done();
     });
 
-    rediservice.send( serviceName, { words: ['hello', 'world'] } );
+    textExample.send( serviceName, { words: ['hello', 'world'] } );
   });
 
 });
@@ -140,8 +147,7 @@ Sometimes, microservices need to operate on data that is best stored in a cache.
 
 const assert = require( 'chai' ).assert;
 
-const rediservice = require( 'rediservice' )
-                    .create( 'redis://localhost:6379' );
+const rediservice = require( 'rediservice' ).create( 'redis://localhost:6379' );
 
 // set an arbirary cache key/value pair...
 rediservice.setCache( 'some-key-id', { arbitrary: [ 'data', { here: 123 } ] } );
