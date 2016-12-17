@@ -2,8 +2,7 @@
 
 const assert = require( 'chai' ).assert;
 
-const rediservice = require( '../../lib/rediservice' )
-                    .create( 'redis://localhost:6379' );
+const rediservice = require( '../../lib/rediservice' ).create();
 
 const textExample = require( '../../examples/text-service-example' );
 
