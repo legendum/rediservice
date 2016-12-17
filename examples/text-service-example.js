@@ -1,7 +1,6 @@
 'use strict';
 
-const rediservice = require( '../lib/rediservice' )
-                    .create( 'redis://localhost:6379' );
+const rediservice = require( '../lib/rediservice' ).create();
 
 // Join a list of words
 rediservice.service('text.join', (service, opts) => {
