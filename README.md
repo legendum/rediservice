@@ -57,7 +57,7 @@ rediservice.service( 'text.caps', function(serviceName, opts) {
   });
 });
 
-// finally export 'run' and 'services' methods, to run and inspect the services 
+// finally export all microservice methods e.g. 'run' to start the microservices
 module.exports = rediservice.exports();
 ```
 
