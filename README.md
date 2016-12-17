@@ -26,11 +26,15 @@ rediservice.service( 'text.join', function(serviceName, opts) {
   // when there are words, but no result...
   this.on( serviceName, {words: true, result: false}, (data) => {
 
-    // ...join words together using an optional separator
-    let result = data.words.join( data.sep || '' );
+    if ( this.types.isArray( data.words ) ) {
 
-    // ...then send the original data, merged with the result string
-    this.send( serviceName, data, { result: result } );
+      // ...join words together using an optional separator
+      let result = data.words.join( data.sep || '' );
+
+      // ...then send the original data, merged with the result string
+      this.send( serviceName, data, { result: result } );
+    }
+
   });
 });
 
@@ -41,11 +45,14 @@ rediservice.service( 'text.caps', function(serviceName, opts) {
   // when there are words, but no result...
   this.on( serviceName, {words: true, result: false}, (data) => {
 
-    // ...capitalize each word in the list
-    let result = data.words.map( (word) => word.toUpperCase() );
+    if ( this.types.isArray( data.words ) ) {
 
-    // ...then send the original data, merged with the result list
-    this.send( serviceName, data, { result: result, count: result.length } );
+      // ...capitalize each word in the list
+      let result = data.words.map( (word) => word.toUpperCase() );
+
+      // ...then send the original data, merged with the result list
+      this.send( serviceName, data, { result: result, count: result.length } );
+    }
   });
 });
 
@@ -169,6 +176,27 @@ If you need to, you can set the environment variable `REDIS_PREFIX` to avoid pot
 ## What else can Rediservice do?
 
 Rediservice is designed to be very small, fast and reliable, so currently no extra capabilities are included. I encourage you to write new NPM packages that leverage Rediservice to add the features you need. The API is stable at version 2, so you don't need to worry about changes breaking your module(s) in the future. This module *only* relies on the very excellent "redis" module: https://www.npmjs.com/package/redis
+
+But there is one extra feature that could be useful called `rediservice.types`:
+
+* `rediservice.types.isArray(value)` - return whether value is an array
+* `rediservice.types.isDate(value)` - return whether value is a Date object
+* `rediservice.types.isFunction(value)` - return whether value is a function
+* `rediservice.types.isNull(value)` - return whether value is `null`
+* `rediservice.types.isNumber(value)` - return whether value is a number
+* `rediservice.types.isObject(value)` - return whether value is an object
+* `rediservice.types.isString(value)` - return whether value is a string
+* `rediservice.types.isUndefined(value)` - return whether value is undefined
+* `rediservice.types.hasType(type, value)` - return whether value is of a type
+* `rediservice.types.notType(type, value)` - return whether value is not a type
+
+Often when writing microservices, you'll want to check whether a value has been set in the data object, *and* to confirm it's of the type that you require.
+
+Inside your microservice definitions, you can replace `rediservice.types` with `this.types`, for example:
+
+`if ( this.types.isArray( data.words ) ) { ...`
+
+See the example code below.
 
 
 ## OK, so show me the code!
