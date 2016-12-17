@@ -173,7 +173,7 @@ Rediservice is designed to be very small, fast and reliable, so currently no ext
 
 ## OK, so show me the code!
 
-Here's Rediservice - at just 100 SLOC: [lib/rediservice.js](lib/rediservice.js)
+Here's Rediservice - at under 100 SLOC: [lib/rediservice.js](lib/rediservice.js)
 
 And for the example code, see [examples/text-service-example.js](examples/text-service-example.js) and [test/examples/text-service-example.test.js](test/examples/text-service-example.test.js)
 
