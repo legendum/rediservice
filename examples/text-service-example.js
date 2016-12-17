@@ -3,25 +3,43 @@
 const rediservice = require( '../lib/rediservice' ).create();
 
 // Join a list of words
-rediservice.service('text.join', (service, opts) => {
+rediservice.service( 'text.join', function(serviceName, opts) {
 
-  rediservice.on(service, {words: true, result: false}, (data) => {
+  this.on( serviceName, { words: true, result: false }, (data) => {
 
+    // join the word list with an optional separator
     let result = data.words.join( data.sep || '' );
 
-    rediservice.send(service, data, { result: result });
+    // send the original data, merged with the result
+    this.send(serviceName, data, { result: result });
+
+    // store the number of microservice calls in the cache (to demo the cache)
+    this.getCache( 'join-call-counter' ).then( (count) => {
+      this.setCache( 'join-call-counter', (count || 0) + 1 );
+    });
+
   });
+
 });
 
 // Capitalize a list of words
-rediservice.service('text.caps', (service, opts) => {
+rediservice.service('text.caps', function(serviceName, opts) {
 
-  rediservice.on(service, {words: true, result: false}, (data) => {
+  this.on( serviceName, { words: true, result: false }, (data) => {
 
+    // transform the word list by uppercasing each word in turn
     let result = data.words.map( (word) => word.toUpperCase() );
 
-    rediservice.send(service, data, { result: result, count: result.length });
+    // send the original data, merged with the result and the word count
+    this.send(serviceName, data, { result: result, count: result.length });
+
+    // store the number of microservice calls in the cache (to demo the cache)
+    this.getCache( 'caps-call-counter' ).then( (count) => {
+      this.setCache( 'caps-call-counter', (count || 0) + 1 );
+    });
+
   });
+
 });
 
 module.exports = rediservice.exports();

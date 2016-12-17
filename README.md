@@ -21,32 +21,32 @@ const rediservice = require( 'rediservice' )
                     .create( 'redis://localhost:6379' );
 
 // 'text.join' - Join a list of words
-rediservice.service('text.join', (serviceName, opts) => {
+rediservice.service( 'text.join', function(serviceName, opts) {
   // NOTE: 'serviceName' is set to "text.join" for convenience
 
   // when there are words, but no result...
-  rediservice.on(serviceName, {words: true, result: false}, (data) => {
+  this.on( serviceName, {words: true, result: false}, (data) => {
 
     // ...join words together using an optional separator
     let result = data.words.join( data.sep || '' );
 
     // ...then send the original data, merged with the result string
-    rediservice.send(serviceName, data, { result: result });
+    this.send( serviceName, data, { result: result } );
   });
 });
 
 // 'text.caps' - Capitalize a list of words
-rediservice.service('text.caps', (serviceName, opts) => {
+rediservice.service( 'text.caps', function(serviceName, opts) {
   // NOTE: 'serviceName' is set to "text.caps" for convenience
 
   // when there are words, but no result...
-  rediservice.on(serviceName, {words: true, result: false}, (data) => {
+  this.on( serviceName, {words: true, result: false}, (data) => {
 
     // ...capitalize each word in the list
     let result = data.words.map( (word) => word.toUpperCase() );
 
     // ...then send the original data, merged with the result list
-    rediservice.send(serviceName, data, { result: result, count: result.length });
+    this.send( serviceName, data, { result: result, count: result.length } );
   });
 });
 
@@ -100,14 +100,14 @@ describe( 'text example services', function () {
     let serviceName = 'text.join';
 
     // we use the optional "debug" flag to write verbose logging
-    textExample.run(serviceName, { debug: true });
+    textExample.run( serviceName, { debug: true } );
 
-    rediservice.on(serviceName, { result: true }, (data) => {
-      assert.equal('hello world', data.result);
+    rediservice.on( serviceName, { result: true }, (data) => {
+      assert.equal( 'hello world', data.result );
       done();
     });
 
-    rediservice.send(serviceName, { words: ['hello', 'world'], sep: ' ' });
+    rediservice.send( serviceName, { words: ['hello', 'world'], sep: ' ' } );
   });
 
   it( 'should capitalize a list of words', function (done) {
@@ -115,15 +115,15 @@ describe( 'text example services', function () {
     let serviceName = 'text.caps';
 
     // we use the optional "debug" flag to write verbose logging
-    textExample.run(serviceName, { debug: true });
+    textExample.run( serviceName, { debug: true } );
 
-    rediservice.on(serviceName, { result: true, count: true }, (data) => {
-      assert.deepEqual(['HELLO', 'WORLD'], data.result);
-      assert.equal(2, data.count);
+    rediservice.on( serviceName, { result: true, count: true }, (data) => {
+      assert.deepEqual( ['HELLO', 'WORLD'], data.result );
+      assert.equal( 2, data.count );
       done();
     });
 
-    rediservice.send(serviceName, { words: ['hello', 'world'] });
+    rediservice.send( serviceName, { words: ['hello', 'world'] } );
   });
 
 });
@@ -158,6 +158,7 @@ rediservice.getCache( 'some-key-id' ).then( (data) => {
 Note that the default TTL for caching is 1 day (86400 seconds), but you can override that by passing a third argument to `setCache` - the TTL integer value in *seconds*, for example `rediservice.setCache('user123', {name: 'Kevin'}, 3600)` to set user details for an hour.
 
 If you need to, you can set the environment variable `REDIS_PREFIX` to avoid potential key collisions with any other caching you're performing on the Redis server.
+
 
 ## What else can Rediservice do?
 
