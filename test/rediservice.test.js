@@ -49,6 +49,8 @@ describe( 'rediservice', function () {
     assert.isTrue( rediservice.types.isBoolean( false ) );
     assert.isTrue( rediservice.types.isDate( new Date() ) );
     assert.isTrue( rediservice.types.isFunction( () => 123 ) );
+    assert.isTrue( rediservice.types.isNil( nil ) );
+    assert.isTrue( rediservice.types.isNil( undef ) );
     assert.isTrue( rediservice.types.isNull( nil ) );
     assert.isTrue( rediservice.types.isNumber( 123 ) );
     assert.isTrue( rediservice.types.isObject( {a: 1, b: 2} ) );
@@ -63,6 +65,7 @@ describe( 'rediservice', function () {
     assert.isFalse( rediservice.types.isBoolean( 0 ) );
     assert.isFalse( rediservice.types.isDate( Date().now ) );
     assert.isFalse( rediservice.types.isFunction( global ) );
+    assert.isFalse( rediservice.types.isNil( false ) );
     assert.isFalse( rediservice.types.isNull( undef ) );
     assert.isFalse( rediservice.types.isNumber( '123' ) );
     assert.isFalse( rediservice.types.isObject( [1, 2] ) );

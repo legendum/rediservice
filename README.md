@@ -185,6 +185,7 @@ But there is one extra feature that could be useful called `rediservice.types`:
 * `rediservice.types.isBoolean(value)` - return whether value is boolean
 * `rediservice.types.isDate(value)` - return whether value is a Date object
 * `rediservice.types.isFunction(value)` - return whether value is a function
+* `rediservice.types.isNil(value)` - return whether value is `null` or `undefined`
 * `rediservice.types.isNull(value)` - return whether value is `null`
 * `rediservice.types.isNumber(value)` - return whether value is a number
 * `rediservice.types.isObject(value)` - return whether value is an object
