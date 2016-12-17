@@ -1,6 +1,6 @@
-# rediservice
+# rediservice [![Build Status](https://travis-ci.org/legendum/rediservice.svg)](http://travis-ci.org/legendum/rediservice)
 
-Simple microservices with Redis pub/sub and caching
+Simple microservices with Redis pub/sub and caching.
 
 
 ## How it works - an example
