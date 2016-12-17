@@ -17,7 +17,7 @@ Here, we'll create a microservice called "text.join" to join a list of words tog
 ```javascript
 'use strict';
 
-const rediservice = require( 'rediservice' ).create( 'redis://localhost:6379' );
+const rediservice = require( 'rediservice' ).create();
 
 // 'text.join' - Join a list of words
 rediservice.service( 'text.join', function(serviceName, opts) {
@@ -65,14 +65,15 @@ In the examples above, the choice of `result` as the key was arbitrary. You can 
 
 Note that the `rediservice.exports()` call at the end of the file exports the following:
 
-* `run()` to run the microservices (in this case 'text.join' and 'text.caps')
-* `services()` to get an Object whose keys are service names and values are functions to start the services
+* `run(selector, options)` to run the microservices (in this case 'text.join' and 'text.caps')
+* `running()` to get an Object whose keys are the service names that are running
+* `service(serviceName, fnDSL)` to define a new microservice using this DSL
+* `services(selector)` to get an Object whose keys are service names and values are functions to start the services
 * `on(serviceName, match, fn)` to handle messages that match data "signatures"
 * `send(serviceName, data, newData)` to publish results after processing
 * `setCache(key, data, ttl)` to set a value in the Redis cache
 * `getCache(key)` to get a value from the Redis cache (as a Promise), or...
 * `getCache(key, next)` to get a value from the Redis cache (as a callback)
-* `service(serviceName, fnDSL)` to define a new microservice using this DSL
 * `exports()` to return this list of DSL methods for export from a microservice
 
 
@@ -99,7 +100,7 @@ By default Rediservice will use Redis database number 1. When Rediservice is run
 
 If your Redis installation uses a password, then set `REDIS_PASSWORD=mysecret`.
 
-If your Redis installation is running on a different machine or port, set `REDIS_URL=redis://myserver:1234` (replacing "myserver" with your server host or IP, and "1234" with whatever port you're using).
+If your Redis installation is running on a remote machine or non-standard port, set `REDIS_URL=redis://myserver:1234` (replacing "myserver" with your server host or IP, and "1234" with whatever port you're using). By default, Rediservice will run using Redis URL "redis://localhost:6379".
 
 ```javascript
 'use strict';
@@ -155,7 +156,7 @@ Sometimes, microservices need to operate on data that is best stored in a cache.
 
 const assert = require( 'chai' ).assert;
 
-const rediservice = require( 'rediservice' ).create( 'redis://localhost:6379' );
+const rediservice = require( 'rediservice' ).create();
 
 // set an arbirary cache key/value pair...
 rediservice.setCache( 'some-key-id', { arbitrary: [ 'data', { here: 123 } ] } );
@@ -181,6 +182,7 @@ Rediservice is designed to be very small, fast and reliable, so currently no ext
 But there is one extra feature that could be useful called `rediservice.types`:
 
 * `rediservice.types.isArray(value)` - return whether value is an array
+* `rediservice.types.isBoolean(value)` - return whether value is boolean
 * `rediservice.types.isDate(value)` - return whether value is a Date object
 * `rediservice.types.isFunction(value)` - return whether value is a function
 * `rediservice.types.isNull(value)` - return whether value is `null`
@@ -202,7 +204,7 @@ See the example code below.
 
 ## OK, so show me the code!
 
-Here's Rediservice - at under 100 SLOC: [lib/rediservice.js](lib/rediservice.js)
+Here's Rediservice - at 100 SLOC: [lib/rediservice.js](lib/rediservice.js)
 
 And for the example code, see [examples/text-service-example.js](examples/text-service-example.js) and [test/examples/text-service-example.test.js](test/examples/text-service-example.test.js)
 

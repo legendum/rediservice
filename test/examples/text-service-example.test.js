@@ -6,13 +6,15 @@ const textExample = require( '../../examples/text-service-example' );
 
 describe( 'rediservice text service example', function () {
 
-  it( 'should export 2 services', function(done) {
+  it( 'should export 2 services, without running them', function(done) {
 
-    let services = textExample.services();
+    let services = textExample.services(),
+        running = textExample.running();
 
     assert.equal( 'function', typeof services['text.join'] );
     assert.equal( 'function', typeof services['text.caps'] );
     assert.equal( 2, Object.keys(services).length );
+    assert.equal( 0, Object.keys(running).length );
 
     done();
   });
@@ -68,6 +70,16 @@ describe( 'rediservice text service example', function () {
     setTimeout( () => {
       textExample.send( serviceName, { words: ['hello', 'world'] } );
     }, 500);
+  });
+
+
+  it( 'should now be running 2 services', function(done) {
+
+    let running = textExample.running();
+
+    assert.equal( 2, Object.keys(running).length );
+
+    done();
   });
 
 });

@@ -45,6 +45,8 @@ describe( 'rediservice', function () {
         nil = null;
 
     assert.isTrue( rediservice.types.isArray( [1,2,3] ) );
+    assert.isTrue( rediservice.types.isBoolean( true ) );
+    assert.isTrue( rediservice.types.isBoolean( false ) );
     assert.isTrue( rediservice.types.isDate( new Date() ) );
     assert.isTrue( rediservice.types.isFunction( () => 123 ) );
     assert.isTrue( rediservice.types.isNull( nil ) );
@@ -55,6 +57,18 @@ describe( 'rediservice', function () {
     assert.isTrue( rediservice.types.isUndefined( undef ) );
     assert.isTrue( rediservice.types.hasType( 'string', 'kevin' ) );
     assert.isTrue( rediservice.types.notType( 'string', 123 ) );
+
+    assert.isFalse( rediservice.types.isArray( {a: 1, b: 2} ) );
+    assert.isFalse( rediservice.types.isBoolean( 1 ) );
+    assert.isFalse( rediservice.types.isBoolean( 0 ) );
+    assert.isFalse( rediservice.types.isDate( Date().now ) );
+    assert.isFalse( rediservice.types.isFunction( global ) );
+    assert.isFalse( rediservice.types.isNull( undef ) );
+    assert.isFalse( rediservice.types.isNumber( '123' ) );
+    assert.isFalse( rediservice.types.isObject( [1, 2] ) );
+    assert.isFalse( rediservice.types.isObject( nil ) );
+    assert.isFalse( rediservice.types.isString( 123 ) );
+    assert.isFalse( rediservice.types.isUndefined( nil ) );
 
     done();
   });
