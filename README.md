@@ -80,7 +80,7 @@ Yes, it's that simple. when `run` is called with no argument, all the services a
 
 Rediservice was designed to be easy to test.
 
-By default Rediservice will use Redis database number 1. When Rediservice is run with `NODE_ENV=test` it uses Redis database number 2 instead. The default Redis database 0 is never used. You're welcome to override this behavior by setting `REDIS_DATABASE=3` for example.
+By default Rediservice will use Redis database number 1. When Rediservice is run with `NODE_ENV=test` it uses Redis database number 2 instead. The default Redis database 0 is never used. You're welcome to override this behavior by setting environment variable `REDIS_DATABASE=3` for example.
 
 If your Redis installation uses a password, then set `REDIS_PASSWORD=mysecret`.
 
@@ -133,7 +133,7 @@ describe( 'text example services', function () {
 ### 5. How to cache data with Rediservice
 
 Sometimes, microservices need to operate on data that is best stored in a cache.
- To enable this, `rediservice` provides `setCache` and `getCache` methods:
+ And coincidentally, this is something for which Redis is perfect. To enable caching with Redis, `rediservice` provides `setCache` and `getCache` methods:
 
 ```javascript
 'use strict';
@@ -155,12 +155,13 @@ rediservice.getCache( 'some-key-id' ).then( (data) => {
 });
 ```
 
-Note that the default TTL for caching is 1 day, but you can override that by passing a third argument to `setCache` - the TTL integer value in *seconds*, for example `rediservice.setCache('user123', {name: 'Kevin'}, 3600)` to set user details for an hour.
+Note that the default TTL for caching is 1 day (86400 seconds), but you can override that by passing a third argument to `setCache` - the TTL integer value in *seconds*, for example `rediservice.setCache('user123', {name: 'Kevin'}, 3600)` to set user details for an hour.
 
+If you need to, you can set the environment variable `REDIS_PREFIX` to avoid potential key collisions with any other caching you're performing on the Redis server.
 
 ## What else can Rediservice do?
 
-Rediservice is designed to be very small, fast and reliable, so currently no extra capabilities are included. I encourage you to write new NPM packages that leverage Rediservice to add the features you need. The API is stable at version 2, so you don't need to worry about breaking changes breaking your module(s) in the future. This module *only* relies on the very excellent "redis" module: https://www.npmjs.com/package/redis
+Rediservice is designed to be very small, fast and reliable, so currently no extra capabilities are included. I encourage you to write new NPM packages that leverage Rediservice to add the features you need. The API is stable at version 2, so you don't need to worry about changes breaking your module(s) in the future. This module *only* relies on the very excellent "redis" module: https://www.npmjs.com/package/redis
 
 
 ## OK, so show me the code!
