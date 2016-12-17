@@ -9,7 +9,7 @@ describe( 'rediservice', function () {
 
   it( 'should cache some data', function (done) {
 
-    rediservice.setCache('author', { name: 'Kevin', age: 45 }, 3); // secs
+    rediservice.setCache('author', { name: 'Kevin', age: 45 }, 2); // secs
 
     rediservice.getCache('author').then( (data) => {
 
