@@ -15,7 +15,7 @@ rediservice.service( 'text.join', function(serviceName, opts) {
 
     // store the number of microservice calls in the cache (to demo the cache)
     this.getCache( 'join-call-counter' ).then( (count) => {
-      this.setCache( 'join-call-counter', (count || 0) + 1 );
+      this.setCache( 'join-call-counter', (count || 0) + 1, 2 ); // just 2 secs
     });
 
   });
@@ -35,7 +35,7 @@ rediservice.service('text.caps', function(serviceName, opts) {
 
     // store the number of microservice calls in the cache (to demo the cache)
     this.getCache( 'caps-call-counter' ).then( (count) => {
-      this.setCache( 'caps-call-counter', (count || 0) + 1 );
+      this.setCache( 'caps-call-counter', (count || 0) + 1, 2 ); // just 2 secs
     });
 
   });
