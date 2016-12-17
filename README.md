@@ -100,7 +100,7 @@ By default Rediservice will use Redis database number 1. When Rediservice is run
 
 If your Redis installation uses a password, then set `REDIS_PASSWORD=mysecret`.
 
-**If your Redis installation is running on a remote machine or non-standard port, set `REDIS_URL=redis://myserver:1234` (replacing "myserver" with your server host or IP, and "1234" with whatever port you're using). By default, Rediservice will run using Redis URL "redis://localhost:6379".**
+**If your Redis installation is running on a remote machine or non-standard port, set environment variable `REDIS_URL=redis://myserver:1234` (replacing "myserver" with your server host or IP, and "1234" with whatever port you're using). By default, Rediservice will run using Redis URL "redis://localhost:6379".**
 
 ```javascript
 'use strict';
