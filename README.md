@@ -81,7 +81,7 @@ const textExample = require( './text-example-services' ); // (the code above)
 textExample.run();
 ```
 
-Yes, it's that simple. when `run` is called with no argument, all the services are run. When run is called with a String or RegExp argument, then only services that match the argument are run. The second form is useful for testing (see below).
+Yes, it's that simple. When `run` is called with no argument, all the services are run. When run is called with a String or RegExp argument, then only services that match the argument are run. The second form is useful for testing (see below).
 
 ### 4. Test the two microservices
 
