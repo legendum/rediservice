@@ -2,7 +2,14 @@
 
 const assert = require( 'chai' ).assert;
 
-const textExample = require( '../../examples/text-service-example' );
+// Note that when we're using a DSL, we need to call the "setup" method here
+// The "setup" method allows us to pass a Redis url, password, prefix or db,
+// and it runs the DSL function that was included in the Rediservice "create".
+const textExample = require( '../../examples/text-service-example2' ).setup({
+  db: 3, // Redis database number
+  prefix: 'test', // Redis key prefix
+  password: 'abc123' // Redis password
+});
 
 describe( 'rediservice text service example', function () {
 
@@ -11,8 +18,8 @@ describe( 'rediservice text service example', function () {
     let services = textExample.services(),
         running = textExample.running();
 
-    assert.equal( 'function', typeof services['text.join'] );
-    assert.equal( 'function', typeof services['text.caps'] );
+    assert.equal( 'function', typeof services['text2.join'] );
+    assert.equal( 'function', typeof services['text2.caps'] );
     assert.equal( 2, Object.keys(services).length );
     assert.equal( 0, Object.keys(running).length );
 
@@ -40,7 +47,7 @@ describe( 'rediservice text service example', function () {
 
   it( 'should join a list of words', function (done) {
 
-    let serviceName = 'text.join';
+    let serviceName = 'text2.join';
 
     textExample.run( serviceName, { debug: true } );
 
@@ -57,7 +64,7 @@ describe( 'rediservice text service example', function () {
 
   it( 'should capitalize a list of words', function (done) {
 
-    let serviceName = 'text.caps';
+    let serviceName = 'text2.caps';
 
     textExample.run( serviceName, { debug: true } );
 

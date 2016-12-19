@@ -1,9 +1,12 @@
 'use strict';
 
+// This example shows the "inline style" of service definition, where each
+// service is defined in turn after requiring the "rediservice" NPM module.
+
 const rediservice = require( '../lib/rediservice' ).create();
 
 // Join a list of words
-rediservice.service( 'text.join', function(serviceName, opts) {
+rediservice.service( 'text1.join', function(serviceName, opts) {
 
   this.on( serviceName, { words: true, result: false }, (data) => {
 
@@ -21,7 +24,7 @@ rediservice.service( 'text.join', function(serviceName, opts) {
 });
 
 // Capitalize a list of words
-rediservice.service('text.caps', function(serviceName, opts) {
+rediservice.service('text1.caps', function(serviceName, opts) {
 
   this.on( serviceName, { words: true, result: false }, (data) => {
 
