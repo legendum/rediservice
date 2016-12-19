@@ -2,6 +2,19 @@
 
 Simple microservices with Redis pub/sub and caching.
 
+## Microservice principles
+
+1. Each microservice has a name, e.g. "text.join" or "text.caps" (see below)
+2. Microservices send data messages that are objects with keys and values
+3. A microservice has handlers to handle data matching particular "signatures"
+4. Signatures may specify that a particular data key must be present or absent
+5. Signatures may also specify that a particular data key has a particular value
+6. A microservice _may_ listen to data messages sent by other microservices
+7. A microservice _should not_ send data messags directly to other microservices
+8. Exception to principle 7: an orchestrator microservice that routes messages
+9. Microservices should be small, simple, independent and easily tested
+
+Rediservice is designed to help you to achieve all these principles in your code.
 
 ## How it works - an example
 
@@ -20,7 +33,7 @@ Here, we'll create a microservice called "text.join" to join a list of words tog
 module.exports = require( 'rediservice' ).create( function() {
 
   // 'text.join' - Join a list of words
-  this.service( 'text.join', (serviceName, opts) => {
+  this.service( 'text.join', (serviceName, options) => {
     // NOTE: 'serviceName' is set to "text.join" for convenience
 
     // when there are words, but no result...
@@ -39,7 +52,7 @@ module.exports = require( 'rediservice' ).create( function() {
   });
 
   // 'text.caps' - Capitalize a list of words
-  this.service( 'text.caps', (serviceName, opts) => {
+  this.service( 'text.caps', (serviceName, options) => {
     // NOTE: 'serviceName' is set to "text.caps" for convenience
 
     // when there are words, but no result...
@@ -66,7 +79,7 @@ The following methods are exported:
 
 * `run(selector, options)` to run the microservices (in this case 'text.join' and 'text.caps')
 * `running()` to get an Object whose keys are the service names that are running
-* `service(serviceName, fnDSL)` to define a new microservice using this DSL
+* `service(serviceName, serviceDSL)` to define a new microservice using this DSL
 * `services(selector)` to get an Object whose keys are service names and values are functions to start the services
 * `on(serviceName, match, fn)` to handle messages that match data "signatures"
 * `send(serviceName, data, newData)` to publish processed data to a microservice
@@ -93,7 +106,7 @@ const textExample = require( './text-example-services' ).setup({
 
 textExample.run({
   debug: true,                    // an optional debug flag for verbose logging
-  custom: 'my value'              // a custom flag used by the service `opts`
+  custom: 'my value'              // a custom flag used by the service 'options'
 });
 ```
 
