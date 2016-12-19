@@ -104,7 +104,8 @@ const textExample = require( './text-example-services' ).setup({
   db: 3                           // an optional Redis database number
 });
 
-textExample.run(/text/, {
+// Run only the "text" microservices
+textExample.run(/^text/, {
   debug: true,                    // an optional debug flag for verbose logging
   custom: 'my value'              // an optional flag also passed into 'options'
 });
