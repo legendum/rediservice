@@ -92,7 +92,8 @@ const textExample = require( './text-example-services' ).setup({
 });
 
 textExample.run({
-  debug: true                     // an optional debug flag for Verbose logging
+  debug: true,                    // an optional debug flag for verbose logging
+  custom: 'my value'              // a custom flag used by the service `opts`
 });
 ```
 
