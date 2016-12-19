@@ -198,7 +198,7 @@ rediservice.getCache( 'some-key-id' ).then( (data) => {
 });
 ```
 
-Note that the default TTL for caching is 1 day (86400 seconds), but you can override that by passing a third argument to `setCache` - the TTL integer value in *seconds*, for example `rediservice.setCache('user123', {name: 'Kevin'}, 3600)` to set user details for an hour.
+Note that the default TTL for caching is 1 day (86400 seconds), but you can override that by passing a third argument to `setCache` - the TTL integer value in *seconds*, for example `rediservice.setCache('user123', {name: 'Kevin'}, 3600)` to set user details for an hour. Alternatively, set the environment variable `REDIS_CACHE_TTL` to the number of seconds you require.
 
 If you need to, you can set the environment variable `REDIS_PREFIX` to avoid potential key collisions with any other caching you're performing on the Redis server.
 
