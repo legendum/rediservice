@@ -104,13 +104,13 @@ const textExample = require( './text-example-services' ).setup({
   db: 3                           // an optional Redis database number
 });
 
-textExample.run({
+textExample.run(/text/, {
   debug: true,                    // an optional debug flag for verbose logging
-  custom: 'my value'              // a custom flag used by the service 'options'
+  custom: 'my value'              // an optional flag also passed into 'options'
 });
 ```
 
-Yes, it's that simple. When `run` is called with no argument, all the services are run. When run is called with a String or RegExp argument, then only services that match the argument are run. The second form is useful for testing (see below).
+Yes, it's that simple. When `run` is called with no first argument, all the services are run. When run is called with a String or RegExp first argument, then only services that match the argument are run. The second form is useful for testing (see below). A second argument allows you to pass options to the services that are being run, for example `{debug: true}` to enable verbose logging.
 
 ### 4. Test the two microservices
 
