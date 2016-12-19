@@ -1,7 +1,8 @@
 'use strict';
 
 // This example shows the "DSL style" of service definition, where the services
-// and the messange handlers are defined inside the Rediservice "create" method.
+// and the message handlers are defined inside the Rediservice "create" method.
+
 // This style is encouraged because it's easier to read and allows Redis config
 // parameters to be passed when calling the "setup" method (see the test file
 // at test/examples/text-service-example2.test.js for a great example of this).
