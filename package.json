@@ -12,6 +12,7 @@
   },
   "main": "./lib/rediservice.js",
   "dependencies": {
+    "fakeredis": "^1.0.3",
     "redis": "^2.6.3"
   },
   "devDependencies": {
@@ -27,9 +28,9 @@
   "scripts": {
     "test": "npm run jshint && npm run mocha",
     "jshint": "jshint lib test --config",
-    "mocha": "mocha test --recursive"
+    "mocha": "NODE_ENV=test mocha test --recursive"
   },
   "engine": "node >= 4.0.0",
   "license": "MIT",
-  "version": "2.5.3"
+  "version": "2.5.4"
 }
