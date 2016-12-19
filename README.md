@@ -17,53 +17,52 @@ Here, we'll create a microservice called "text.join" to join a list of words tog
 ```javascript
 'use strict';
 
-const rediservice = require( 'rediservice' ).create();
+module.exports = require( 'rediservice' ).create( function() {
 
-// 'text.join' - Join a list of words
-rediservice.service( 'text.join', function(serviceName, opts) {
-  // NOTE: 'serviceName' is set to "text.join" for convenience
+  // 'text.join' - Join a list of words
+  this.service( 'text.join', (serviceName, opts) => {
+    // NOTE: 'serviceName' is set to "text.join" for convenience
 
-  // when there are words, but no result...
-  this.on( serviceName, {words: true, result: false}, (data) => {
+    // when there are words, but no result...
+    this.on( serviceName, {words: true, result: false}, (data) => {
 
-    if ( this.types.isArray( data.words ) ) {
+      if ( this.types.isArray( data.words ) ) {
 
-      // ...join words together using an optional separator
-      let result = data.words.join( data.sep || '' );
+        // ...join words together using an optional separator
+        let result = data.words.join( data.sep || '' );
 
-      // ...then send the original data, merged with the result string
-      this.send( serviceName, data, { result: result } );
-    }
+        // ...then send the original data, merged with the result string
+        this.send( serviceName, data, { result: result } );
+      }
 
+    });
   });
-});
 
-// 'text.caps' - Capitalize a list of words
-rediservice.service( 'text.caps', function(serviceName, opts) {
-  // NOTE: 'serviceName' is set to "text.caps" for convenience
+  // 'text.caps' - Capitalize a list of words
+  this.service( 'text.caps', (serviceName, opts) => {
+    // NOTE: 'serviceName' is set to "text.caps" for convenience
 
-  // when there are words, but no result...
-  this.on( serviceName, {words: true, result: false}, (data) => {
+    // when there are words, but no result...
+    this.on( serviceName, {words: true, result: false}, (data) => {
 
-    if ( this.types.isArray( data.words ) ) {
+      if ( this.types.isArray( data.words ) ) {
 
-      // ...capitalize each word in the list
-      let result = data.words.map( (word) => word.toUpperCase() );
+        // ...capitalize each word in the list
+        let result = data.words.map( (word) => word.toUpperCase() );
 
-      // ...then send the original data, merged with the result list
-      this.send( serviceName, data, { result: result, count: result.length } );
-    }
+        // ...then send the original data, merged with the result list
+        this.send( serviceName, data, { result: result, count: result.length } );
+      }
 
+    });
   });
-});
 
-// finally export all microservice methods e.g. 'run' to start the microservices
-module.exports = rediservice.exports();
+});
 ```
 
 In the examples above, the choice of `result` as the key was arbitrary. You can merge any keys and values you like with the returned data object (e.g. `count` in the second example).
 
-Note that the `rediservice.exports()` call at the end of the file exports the following:
+The following methods are exported:
 
 * `run(selector, options)` to run the microservices (in this case 'text.join' and 'text.caps')
 * `running()` to get an Object whose keys are the service names that are running
@@ -107,7 +106,7 @@ If your Redis installation uses a password, then set `REDIS_PASSWORD=mysecret`.
 
 const assert = require( 'chai' ).assert;
 
-const textExample = require( './text-example-services' ); // (the code above)
+const textExample = require( './text-example-services' ).setup(); // (the code above)
 
 describe( 'text example services', function () {
 
@@ -205,7 +204,7 @@ See the example code below.
 
 ## OK, so show me the code!
 
-Here's Rediservice - at 100 SLOC: [lib/rediservice.js](lib/rediservice.js)
+Here's Rediservice - at just 111 SLOC: [lib/rediservice.js](lib/rediservice.js)
 
 And for the example code, see [examples/text-service-example.js](examples/text-service-example.js) and [test/examples/text-service-example.test.js](test/examples/text-service-example.test.js)
 
