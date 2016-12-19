@@ -86,17 +86,24 @@ The following methods are exported:
 * `setCache(key, data, ttl)` to set a value in the Redis cache
 * `getCache(key)` to get a value from the Redis cache (as a Promise), or...
 * `getCache(key, next)` to get a value from the Redis cache (as a callback)
-* `exports()` to return this list of DSL methods for export from a microservice
+* `setup(redisOpts)` to setup microservices by running the services DSL function
+* `exports()` to return the Rediservice object having these methods
 
 
-Relax! Typically, you'll just call the `run()` method to run the microservices.
+Relax! Typically, you'll just call the `setup()` method then the `run()` method to run the microservices. Parameters are optional, but some examples are included below as a demonstration.
 
 
 ### 3. Running the example microservices
 
-```javascript
-'use strict';
+Without parameters:
 
+```javascript
+require( './text-example-services' ).setup().run();
+```
+
+With some example parameters:
+
+```javascript
 const textExample = require( './text-example-services' ).setup({
   url: 'redis://localhost:6379',  // an optional Redis URL
   password: 'mysecret',           // an optional Redis password
