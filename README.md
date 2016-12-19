@@ -84,9 +84,16 @@ Relax! Typically, you'll just call the `run()` method to run the microservices.
 ```javascript
 'use strict';
 
-const textExample = require( './text-example-services' ); // (the code above)
+const textExample = require( './text-example-services' ).setup({
+  url: 'redis://localhost:6379',  // an optional Redis URL
+  password: 'mysecret',           // an optional Redis password
+  prefix: 'app1',                 // an optional Redis prefix for cached keys
+  db: 3                           // an optional Redis database number
+});
 
-textExample.run();
+textExample.run({
+  debug: true                     // an optional debug flag for Verbose logging
+});
 ```
 
 Yes, it's that simple. When `run` is called with no argument, all the services are run. When run is called with a String or RegExp argument, then only services that match the argument are run. The second form is useful for testing (see below).
